@@ -15,24 +15,27 @@ RUN apt-get -yqq update && \
 #RUN npm install -gq gulp bower
 
 # Global install gulp and bower
+# --loglevel=error
 RUN npm set progress=false && \
-    npm install --global --progress=false gulp bower npm-cache && \
+    npm install --global --progress=false gulp bower npm-cache crowrap && \
     echo '{ "allow_root": true }' > /root/.bowerrc
 
 # Install Gem Sass Compass
-RUN gem install sass
+# RUN gem install sass
 
 # Binary may be called nodejs instead of node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Cleanup image
 RUN apt-get -yqq autoremove && \
-		apt-get -yqq clean && \
-		rm -rf /var/lib/apt/lists/* /var/cache/* /tmp/* /var/tmp/*
+        apt-get -yqq clean && \
+        rm -rf /var/lib/apt/lists/* /var/cache/* /tmp/* /var/tmp/*
 
 RUN usermod -u ${DOCKER_USER_ID:-1000} www-data \
     && mkdir -p ${APP_BASE_DIR:-/var/www/}
 
 WORKDIR ${APP_BASE_DIR:-/var/www/}
 
-#Does this file work?
+# ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["node", "/usr/local/lib/node_modules/crowrap/bin/crowrap.js"]
+# CMD ["/usr/bin/crowrap"]
