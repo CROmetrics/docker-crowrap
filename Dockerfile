@@ -34,3 +34,5 @@ RUN usermod -u ${DOCKER_USER_ID:-1000} www-data \
     && mkdir -p ${APP_BASE_DIR:-/var/www/}
 
 WORKDIR ${APP_BASE_DIR:-/var/www/}
+
+#Does this file work?
